@@ -1,0 +1,106 @@
+nav:
+    products: Produits
+    carts: Paniers
+    profile: Profil
+    logout: Déconnexion
+    login: Connexion
+    register: Inscription
+
+product:
+    title: Catalogue
+    new: Nouveau produit
+    edit: Modifier le produit
+    delete: Supprimer
+    show: Voir
+    add_to_cart: "+ Panier"
+    no_result: Aucun produit trouvé.
+    search: Rechercher...
+    all_categories: Toutes catégories
+    max_price: Prix max (€)
+    filter: Filtrer
+    reset: Réinitialiser
+    country: Pays d'origine
+    category: Catégorie
+    description: Description
+    price: Prix
+    stock: Stock
+    expiration: Date d'expiration
+    threshold: Seuil alerte stock
+    not_rated: Pas encore noté
+    low_stock: Stock faible
+    name: Nom du produit
+    original_price: Prix original (€)
+    original_price_hint: barré si promo
+    promo_tag: Tag promo
+    duplicate: Dupliquer
+    cancel: Annuler
+    save: Enregistrer
+    create: Créer le produit
+    back: Retour
+    product_label: "Produit :"
+
+cart:
+    title: Mes paniers
+    show_title: Panier
+    qty: Qté
+    unit: unité
+    out_of_stock: Rupture
+    in_stock: en stock
+    selection: Sélection
+    available_products: Produits disponibles
+    choose: "-- Choisir --"
+    quantity: Quantité
+    add_to_cart_btn: Ajouter au panier
+    new: Nouveau panier
+    create: Créer un panier
+    empty: Aucun panier pour l'instant.
+    validate: Valider le panier
+    status_validated: Commande validée
+    add_product: Ajouter un produit
+    total: Total commande
+    cart_empty: Ce panier est vide.
+    confirm_validate: Valider la commande ?
+    confirm_delete: Supprimer ce panier ?
+    remove: Retirer
+    back: Retour
+    items: article(s)
+    created: Créé le
+    updated: Mis à jour le
+
+comment:
+    title: Commentaires
+    add: Laisser un commentaire
+    publish: Publier
+    placeholder: Votre avis sur ce produit...
+    login_required: Connectez-vous pour laisser un commentaire.
+    none: Aucun commentaire pour l'instant. Soyez le premier !
+    delete_confirm: Supprimer ce commentaire ?
+
+rating:
+    title: Note moyenne
+    your_rating: Votre note
+    rate: Noter
+    none: Aucune note pour l'instant.
+
+auth:
+    login_title: Connexion
+    register_title: Créer un compte
+    email: Adresse e-mail
+    password: Mot de passe
+    confirm_password: Confirmer le mot de passe
+    first_name: Prénom
+    last_name: Nom
+    submit_login: Se connecter
+    submit_register: Créer le compte
+    no_account: Pas encore de compte ?
+    already_account: Déjà un compte ?
+
+profile:
+    title: Mon profil
+    full_name: Nom complet
+    role: Rôle
+    role_admin: Administrateur
+    role_user: Utilisateur
+    my_carts: Mes paniers
+    no_carts: Aucun panier pour l'instant.
+    cart_number: Panier

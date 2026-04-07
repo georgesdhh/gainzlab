@@ -1,0 +1,162 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>
+            {{ product.name }}
+            {% if product.promoTag %}
+                <span class="badge" style="background-color: var(--gl-accent); font-size: 0.75rem;">{{ product.promoTag }}</span>
+            {% endif %}
+        </h1>
+        <a href="{{ path('app_product_index') }}" class="btn btn-outline-secondary">← {{ 'product.back'|trans }}</a>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <p><strong>{{ 'product.category'|trans }} :</strong> {{ product.category ?? '—' }}</p>
+            <p><strong>{{ 'product.description'|trans }} :</strong> {{ product.description ?? '—' }}</p>
+            <p><strong>{{ 'product.price'|trans }} :</strong>
+                <span style="color: var(--gl-accent); font-weight: 700;">{{ product.price }} €</span>
+                {% if product.originalPrice %}
+                    <span class="text-muted text-decoration-line-through ms-2">{{ product.originalPrice }} €</span>
+                {% endif %}
+            </p>
+            <p><strong>{{ 'product.stock'|trans }} :</strong>
+                <span class="badge {{ product.stock < product.stockThreshold ? 'bg-danger' : 'bg-success' }}">
+                    {{ product.stock }}
+                </span>
+            </p>
+            <p><strong>{{ 'product.country'|trans }} :</strong> {{ product.country ?? '—' }}</p>
+            <p><strong>{{ 'product.expiration'|trans }} :</strong> {{ product.expirationDate ? product.expirationDate|date('d/m/Y') : '—' }}</p>
+            <p><strong>{{ 'product.threshold'|trans }} :</strong> {{ product.stockThreshold }}</p>
+        </div>
+    </div>
+
+    {# ── Notation ── #}
+    <div class="card border mb-4" style="border-radius: 8px;">
+        <div class="card-body py-3">
+            <div class="d-flex align-items-center gap-4 flex-wrap">
+                <div>
+                    <span class="text-muted small text-uppercase fw-bold">{{ 'rating.title'|trans }}</span><br>
+                    {% set avg = product.averageRating %}
+                    {% if avg %}
+                        <span style="font-size: 1.5rem; color: var(--gl-accent);">
+                            {% for i in 1..5 %}{{ i <= avg ? '★' : '☆' }}{% endfor %}
+                        </span>
+                        <span class="text-muted small ms-1">{{ avg }}/5 ({{ product.ratings|length }})</span>
+                    {% else %}
+                        <span class="text-muted small">{{ 'rating.none'|trans }}</span>
+                    {% endif %}
+                </div>
+
+                {% if is_granted('ROLE_USER') %}
+                <form method="post" action="{{ path('app_rating_add', {id: product.id}) }}" class="d-flex align-items-center gap-2">
+                    <span class="text-muted small">{{ 'rating.your_rating'|trans }} :</span>
+                    <div class="d-flex gap-1">
+                        {% set userRating = null %}
+                        {% for r in product.ratings %}
+                            {% if app.user and r.author == app.user %}
+                                {% set userRating = r.score %}
+                            {% endif %}
+                        {% endfor %}
+                        {% for i in 1..5 %}
+                            <label style="cursor:pointer; font-size: 1.4rem; color: var(--gl-accent);">
+                                <input type="radio" name="score" value="{{ i }}" style="display:none" {{ userRating == i ? 'checked' : '' }}>
+                                <span class="star" data-value="{{ i }}">{{ userRating and i <= userRating ? '★' : '☆' }}</span>
+                            </label>
+                        {% endfor %}
+                    </div>
+                    <button class="btn btn-sm btn-primary">{{ 'rating.rate'|trans }}</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% if is_granted('ROLE_ADMIN') %}
+    <div class="mb-4 d-flex gap-2">
+        <a href="{{ path('app_product_edit', {id: product.id}) }}" class="btn btn-warning">{{ 'product.edit'|trans }}</a>
+        <form method="post" action="{{ path('app_product_duplicate', {id: product.id}) }}">
+            <button class="btn btn-outline-secondary">{{ 'product.duplicate'|trans }}</button>
+        </form>
+        <form method="post" action="{{ path('app_product_delete', {id: product.id}) }}">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+            <button class="btn btn-danger" onclick="return confirm('{{ 'product.delete'|trans }} ?')">{{ 'product.delete'|trans }}</button>
+        </form>
+    </div>
+    {% endif %}
+
+    {# ── Commentaires ── #}
+    <h2 class="mb-3" style="font-size: 1.3rem; font-family: 'Barlow Condensed', sans-serif; text-transform: uppercase;">
+        {{ 'comment.title'|trans }} <span class="text-muted fw-normal" style="font-size: 1rem;">({{ product.comments|length }})</span>
+    </h2>
+
+    {% if product.comments is empty %}
+        <p class="text-muted mb-4">{{ 'comment.none'|trans }}</p>
+    {% else %}
+        <div class="d-flex flex-column gap-3 mb-4">
+            {% for comment in product.comments %}
+            <div class="card border" style="border-radius: 8px;">
+                <div class="card-body py-3">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <span class="fw-bold small" style="color: var(--gl-accent)">
+                                {{ comment.author.firstName }} {{ comment.author.lastName }}
+                            </span>
+                            <span class="text-muted small ms-2">
+                                {{ comment.createdAt ? comment.createdAt|date('d/m/Y à H:i') : '' }}
+                            </span>
+                        </div>
+                        {% if is_granted('ROLE_USER') and (app.user == comment.author or is_granted('ROLE_ADMIN')) %}
+                        <form method="post" action="{{ path('app_comment_delete', {id: comment.id}) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete-comment-' ~ comment.id) }}">
+                            <button class="btn btn-sm btn-outline-danger py-0 px-2" onclick="return confirm('{{ 'comment.delete_confirm'|trans }}')" style="font-size: 0.75rem;">✕</button>
+                        </form>
+                        {% endif %}
+                    </div>
+                    <p class="mb-0 mt-2">{{ comment.content }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {# Formulaire d'ajout #}
+    {% if is_granted('ROLE_USER') %}
+        <div class="card border" style="border-radius: 8px;">
+            <div class="card-body">
+                <h6 class="fw-bold text-uppercase mb-3" style="font-size: 0.85rem;">{{ 'comment.add'|trans }}</h6>
+                <form method="post" action="{{ path('app_comment_add', {id: product.id}) }}">
+                    <textarea name="content" class="form-control mb-3" rows="3" placeholder="{{ 'comment.placeholder'|trans }}" required></textarea>
+                    <button class="btn btn-primary btn-sm">{{ 'comment.publish'|trans }}</button>
+                </form>
+            </div>
+        </div>
+    {% else %}
+        <p class="text-muted small">
+            <a href="{{ path('app_login') }}">{{ 'nav.login'|trans }}</a> — {{ 'comment.login_required'|trans }}
+        </p>
+    {% endif %}
+
+{% endblock %}
+
+{% block javascripts %}
+<script>
+document.querySelectorAll('.star').forEach(star => {
+    star.addEventListener('mouseover', () => {
+        const val = +star.dataset.value;
+        star.closest('.d-flex').querySelectorAll('.star').forEach(s => {
+            s.textContent = +s.dataset.value <= val ? '★' : '☆';
+        });
+    });
+    star.addEventListener('click', () => {
+        const val = +star.dataset.value;
+        star.closest('.d-flex').querySelectorAll('input[type=radio]').forEach(input => {
+            input.checked = +input.value === val;
+        });
+    });
+});
+</script>
+{% endblock %}

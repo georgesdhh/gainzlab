@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'cart.show_title'|trans }} #{{ cartNumber }} — GainzLab{% endblock %}
+
+{% block body %}
+
+<div class="d-flex justify-content-between align-items-center page-title">
+    <h1 class="mb-0">{{ 'cart.show_title'|trans }} <span style="color: var(--gl-accent)">#{{ cartNumber }}</span></h1>
+    <a href="{{ path('app_cart_index') }}" class="btn btn-sm btn-outline-secondary">{{ 'cart.back'|trans }}</a>
+</div>
+
+{% if cart.cartItems is empty %}
+    <div class="text-center py-5 text-muted">
+        <p class="fs-5">{{ 'cart.cart_empty'|trans }}</p>
+        <a href="{{ path('app_cart_add', {id: cart.id}) }}" class="btn btn-primary">{{ 'cart.add_product'|trans }}</a>
+    </div>
+{% else %}
+
+{% set total = 0 %}
+<div class="row g-3 mb-4">
+    {% for item in cart.cartItems %}
+        {% set lineTotal = item.product.price * item.quantity %}
+        {% set total = total + lineTotal %}
+    <div class="col-md-6 col-lg-4">
+        <div class="card border h-100" style="border-radius: 8px;">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h6 class="fw-bold mb-0" style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.1rem; text-transform: uppercase;">{{ item.product.name }}</h6>
+                    <span class="badge bg-secondary" style="font-size: 0.7rem;">{{ item.product.category }}</span>
+                </div>
+                <p class="text-muted small mb-3">{{ item.product.price }} € / {{ 'cart.unit'|trans }}</p>
+
+                <form method="post" action="{{ path('app_cart_update_quantity', {cartId: cart.id, productId: item.product.id}) }}" class="d-flex align-items-center gap-2 mb-3">
+                    <label class="small text-muted mb-0">{{ 'cart.qty'|trans }} :</label>
+                    <input type="number" name="quantity" value="{{ item.quantity }}" min="0" max="{{ item.product.stock }}"
+                           class="form-control form-control-sm" style="width: 70px">
+                    <button class="btn btn-sm btn-outline-secondary">OK</button>
+                </form>
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="fw-bold" style="color: var(--gl-accent)">{{ lineTotal|number_format(2, ',', ' ') }} €</span>
+                    <form method="post" action="{{ path('app_cart_remove_item', {cartId: cart.id, productId: item.product.id}) }}">
+                        <button class="btn btn-sm btn-outline-danger">{{ 'cart.remove'|trans }}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="p-4" style="background-color: var(--gl-total-bg); border-radius: 8px;">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <span class="text-muted small text-uppercase">{{ 'cart.total'|trans }}</span>
+            <h2 style="color: var(--gl-total-text);" class="mb-0">{{ total|number_format(2, ',', ' ') }} €</h2>
+        </div>
+        <div class="d-flex gap-2 align-items-center">
+            {% if not cart.validated %}
+                <a href="{{ path('app_cart_add', {id: cart.id}) }}" class="btn btn-outline-secondary">{{ 'cart.add_product'|trans }}</a>
+                <form method="post" action="{{ path('app_cart_validate', {id: cart.id}) }}">
+                    <button class="btn btn-primary" onclick="return confirm('{{ 'cart.confirm_validate'|trans }}')">{{ 'cart.validate'|trans }}</button>
+                </form>
+            {% else %}
+                <span class="badge bg-success fs-6 px-3 py-2">{{ 'cart.status_validated'|trans }}</span>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+{% endblock %}

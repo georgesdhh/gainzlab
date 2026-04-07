@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'product.edit'|trans }} — {{ product.name }}{% endblock %}
+
+{% block body %}
+
+<div class="d-flex justify-content-between align-items-center page-title">
+    <h1 class="mb-0">{{ 'product.edit'|trans }}</h1>
+    <a href="{{ path('app_product_show', {id: product.id}) }}" class="btn btn-sm btn-outline-secondary">{{ 'product.back'|trans }}</a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border" style="border-radius: 8px;">
+            <div class="card-header px-4 py-3" style="background: transparent; border-bottom: 1px solid #dee2e6;">
+                <span class="text-muted small text-uppercase">{{ 'product.product_label'|trans }}</span>
+                <strong>{{ product.name }}</strong>
+            </div>
+            <div class="card-body p-4">
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+
+                <div class="row g-3">
+                    <div class="col-md-8">
+                        <label class="form-label small text-uppercase text-muted">{{ 'product.name'|trans }}</label>
+                        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.name) }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label small text-uppercase text-muted">{{ 'product.category'|trans }}</label>
+                        {{ form_widget(form.category, {'attr': {'class': 'form-select'}}) }}
+                        {{ form_errors(form.category) }}
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label small text-uppercase text-muted">{{ 'product.description'|trans }}</label>
+                        {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 3}}) }}
+                        {{ form_errors(form.description) }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label small text-uppercase text-muted">{{ 'product.price'|trans }}</label>
+                        {{ form_widget(form.price, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.price) }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label small text-uppercase text-muted">{{ 'product.original_price'|trans }} <span class="text-muted fw-normal" style="text-transform: none; font-size: 0.75rem;">{{ 'product.original_price_hint'|trans }}</span></label>
+                        {{ form_widget(form.originalPrice, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.originalPrice) }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label small text-uppercase text-muted">{{ 'product.stock'|trans }}</label>
+                        {{ form_widget(form.stock, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.stock) }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label small text-uppercase text-muted">{{ 'product.threshold'|trans }}</label>
+                        {{ form_widget(form.stockThreshold, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.stockThreshold) }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label small text-uppercase text-muted">{{ 'product.country'|trans }}</label>
+                        {{ form_widget(form.country, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.country) }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label small text-uppercase text-muted">{{ 'product.expiration'|trans }}</label>
+                        {{ form_widget(form.expirationDate, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.expirationDate) }}
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label small text-uppercase text-muted">{{ 'product.promo_tag'|trans }}</label>
+                        {{ form_widget(form.promoTag, {'attr': {'class': 'form-select'}}) }}
+                        {{ form_errors(form.promoTag) }}
+                    </div>
+                </div>
+
+                <div class="border-top mt-4 pt-4 d-flex justify-content-end gap-2">
+                    <a href="{{ path('app_product_show', {id: product.id}) }}" class="btn btn-outline-secondary">{{ 'product.cancel'|trans }}</a>
+                    <button type="submit" class="btn btn-primary">{{ 'product.save'|trans }}</button>
+                </div>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

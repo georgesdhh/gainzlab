@@ -1,0 +1,106 @@
+nav:
+    products: Products
+    carts: Carts
+    profile: Profile
+    logout: Logout
+    login: Login
+    register: Sign up
+
+product:
+    title: Catalogue
+    new: New product
+    edit: Edit product
+    delete: Delete
+    show: View
+    add_to_cart: "+ Cart"
+    no_result: No products found.
+    search: Search...
+    all_categories: All categories
+    max_price: Max price (€)
+    filter: Filter
+    reset: Reset
+    country: Country of origin
+    category: Category
+    description: Description
+    price: Price
+    stock: Stock
+    expiration: Expiration date
+    threshold: Low stock threshold
+    not_rated: Not yet rated
+    low_stock: Low stock
+    name: Product name
+    original_price: Original price (€)
+    original_price_hint: strikethrough if promo
+    promo_tag: Promo tag
+    duplicate: Duplicate
+    cancel: Cancel
+    save: Save
+    create: Create product
+    back: Back
+    product_label: "Product:"
+
+cart:
+    title: My carts
+    show_title: Cart
+    qty: Qty
+    unit: unit
+    out_of_stock: Out of stock
+    in_stock: in stock
+    selection: Selection
+    available_products: Available products
+    choose: "-- Choose --"
+    quantity: Quantity
+    add_to_cart_btn: Add to cart
+    new: New cart
+    create: Create a cart
+    empty: No carts yet.
+    validate: Checkout
+    status_validated: Order confirmed
+    add_product: Add a product
+    total: Order total
+    cart_empty: This cart is empty.
+    confirm_validate: Confirm order?
+    confirm_delete: Delete this cart?
+    remove: Remove
+    back: Back
+    items: item(s)
+    created: Created on
+    updated: Updated on
+
+comment:
+    title: Comments
+    add: Leave a comment
+    publish: Publish
+    placeholder: Your review of this product...
+    login_required: Log in to leave a comment.
+    none: No comments yet. Be the first!
+    delete_confirm: Delete this comment?
+
+rating:
+    title: Average rating
+    your_rating: Your rating
+    rate: Rate
+    none: No ratings yet.
+
+auth:
+    login_title: Login
+    register_title: Create an account
+    email: Email address
+    password: Password
+    confirm_password: Confirm password
+    first_name: First name
+    last_name: Last name
+    submit_login: Log in
+    submit_register: Create account
+    no_account: No account yet?
+    already_account: Already have an account?
+
+profile:
+    title: My profile
+    full_name: Full name
+    role: Role
+    role_admin: Administrator
+    role_user: User
+    my_carts: My carts
+    no_carts: No carts yet.
+    cart_number: Cart

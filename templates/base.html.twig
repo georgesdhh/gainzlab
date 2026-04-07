@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fr" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}GainzLab{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gl-accent: #d89d6a;
+            --gl-dark: #111111;
+        }
+
+        [data-bs-theme="light"] {
+            --gl-total-bg: #f1f1f1;
+            --gl-total-text: #111;
+        }
+
+        [data-bs-theme="dark"] {
+            --gl-total-bg: #111;
+            --gl-total-text: #fff;
+        }
+
+        body {
+            font-family: 'Barlow', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .navbar {
+            background-color: var(--gl-dark) !important;
+            border-bottom: 3px solid var(--gl-accent);
+        }
+
+        .navbar-brand {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 800;
+            font-size: 1.6rem;
+            color: white !important;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .navbar-brand span {
+            color: var(--gl-accent);
+        }
+
+        .nav-link {
+            color: #aaa !important;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-link:hover {
+            color: white !important;
+        }
+
+        /* Bouton principal — couleur accent */
+        .btn-primary {
+            background-color: var(--gl-accent);
+            border-color: var(--gl-accent);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            transition: background-color 0.2s, border-color 0.2s, opacity 0.2s;
+        }
+
+        .btn-primary:hover, .btn-primary:focus {
+            background-color: #c08050;
+            border-color: #c08050;
+            color: white;
+        }
+
+        .btn-primary:active {
+            background-color: #a86c3c;
+            border-color: #a86c3c;
+            color: white;
+        }
+
+        /* Bouton outline accent */
+        .btn-outline-accent {
+            border-color: var(--gl-accent);
+            color: var(--gl-accent);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.2s;
+        }
+
+        .btn-outline-accent:hover, .btn-outline-accent:focus {
+            background-color: var(--gl-accent);
+            color: white;
+        }
+
+        /* Lien couleur accent */
+        a[style*="gl-accent"] {
+            text-decoration: none;
+        }
+
+        a[style*="gl-accent"]:hover {
+            opacity: 0.8;
+        }
+
+        #theme-toggle {
+            background: transparent;
+            border: none;
+            color: #aaa;
+            font-size: 1rem;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        #theme-toggle:hover {
+            color: white;
+        }
+
+        /* Boutons secondaires couleurs du site */
+        .btn-outline-secondary {
+            border-color: var(--gl-accent);
+            color: var(--gl-accent);
+            font-weight: 500;
+        }
+
+        .btn-outline-secondary:hover, .btn-outline-secondary:focus {
+            background-color: var(--gl-accent);
+            border-color: var(--gl-accent);
+            color: white;
+        }
+
+        .page-title {
+            border-left: 4px solid var(--gl-accent);
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        footer {
+            background-color: var(--gl-dark);
+            color: #555;
+            font-size: 0.8rem;
+            padding: 1.5rem 0;
+            margin-top: auto;
+        }
+    </style>
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand" href="{{ path('app_product_index') }}">Gainz<span>Lab</span></a>
+        <div class="navbar-nav me-auto ms-4">
+            <a class="nav-link" href="{{ path('app_product_index') }}">{{ 'nav.products'|trans }}</a>
+            <a class="nav-link" href="{{ path('app_cart_index') }}">{{ 'nav.carts'|trans }}</a>
+        </div>
+        <div class="navbar-nav align-items-center gap-2">
+            <button id="theme-toggle">☽</button>
+            {% set currentLocale = app.request.locale %}
+            <a class="nav-link px-1 {{ currentLocale == 'fr' ? 'text-white' : '' }}" href="{{ path('app_locale_switch', {locale: 'fr'}) }}" title="Français">FR</a>
+            <span class="text-muted">|</span>
+            <a class="nav-link px-1 {{ currentLocale == 'en' ? 'text-white' : '' }}" href="{{ path('app_locale_switch', {locale: 'en'}) }}" title="English">EN</a>
+            {% if app.user %}
+                <span class="nav-link text-light">{{ app.user.fullName }}</span>
+                <a class="nav-link" href="{{ path('app_profile') }}">{{ 'nav.profile'|trans }}</a>
+                <a class="nav-link" href="{{ path('app_logout') }}">{{ 'nav.logout'|trans }}</a>
+            {% else %}
+                <a class="nav-link" href="{{ path('app_login') }}">{{ 'nav.login'|trans }}</a>
+                <a class="nav-link" href="{{ path('app_register') }}">{{ 'nav.register'|trans }}</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+<main class="container mt-4">
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type == 'error' ? 'danger' : type }} alert-dismissible fade show">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {% block body %}{% endblock %}
+</main>
+
+<footer>
+    <div class="container text-center">
+        GainzLab &mdash; TP Dev Web L3 MIAGE &copy; 2026
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const toggle = document.getElementById('theme-toggle');
+    const html = document.documentElement;
+
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    html.setAttribute('data-bs-theme', savedTheme);
+    toggle.textContent = savedTheme === 'dark' ? '☀︎' : '☽';
+
+    toggle.addEventListener('click', () => {
+        const current = html.getAttribute('data-bs-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-bs-theme', next);
+        localStorage.setItem('theme', next);
+        toggle.textContent = next === 'dark' ? '☀︎' : '☽';
+    });
+</script>
+{% block javascripts %}{% endblock %}
+</body>
+</html>

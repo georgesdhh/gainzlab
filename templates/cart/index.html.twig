@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'cart.title'|trans }} — GainzLab{% endblock %}
+
+{% block body %}
+
+<div class="d-flex justify-content-between align-items-center page-title">
+    <h1 class="mb-0">{{ 'cart.title'|trans }}</h1>
+    <form method="post" action="{{ path('app_cart_new') }}">
+        <button class="btn btn-primary btn-sm">{{ 'cart.new'|trans }}</button>
+    </form>
+</div>
+
+{% if carts is empty %}
+    <div class="text-center py-5 text-muted">
+        <p class="fs-5">{{ 'cart.empty'|trans }}</p>
+        <form method="post" action="{{ path('app_cart_new') }}">
+            <button class="btn btn-primary">{{ 'cart.create'|trans }}</button>
+        </form>
+    </div>
+{% else %}
+    <div class="row g-3">
+        {% for cart in carts %}
+        <div class="col-md-4">
+            <div class="card border h-100" style="border-radius: 8px;">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <span class="text-muted small text-uppercase fw-bold">{{ 'cart.cart_number'|trans }} #{{ loop.index }}</span>
+                        <div class="d-flex gap-1 align-items-center">
+                            <span class="badge bg-secondary">{{ cart.cartItems|length }} {{ 'cart.items'|trans }}</span>
+                            {% if cart.validated %}
+                                <span class="badge bg-success">{{ 'cart.status_validated'|trans }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <p class="small text-muted mb-1">
+                        {{ 'cart.created'|trans }} {{ cart.createdAt ? cart.createdAt|date('d/m/Y à H:i') : '—' }}
+                    </p>
+                    <p class="small text-muted mb-3">
+                        {{ 'cart.updated'|trans }} {{ cart.updatedAt ? cart.updatedAt|date('d/m/Y à H:i') : '—' }}
+                    </p>
+                    <div class="d-flex gap-2">
+                        <a href="{{ path('app_cart_show', {id: cart.id}) }}" class="btn btn-sm btn-outline-secondary flex-grow-1">{{ 'product.show'|trans }}</a>
+                        <form method="post" action="{{ path('app_cart_delete', {id: cart.id}) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ cart.id) }}">
+                            <button class="btn btn-sm btn-outline-danger" onclick="return confirm('{{ 'cart.confirm_delete'|trans }}')">{{ 'product.delete'|trans }}</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% endblock %}
