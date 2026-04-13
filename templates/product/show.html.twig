@@ -15,8 +15,8 @@
 
     <div class="card mb-4">
         <div class="card-body">
-            <p><strong>{{ 'product.category'|trans }} :</strong> {{ product.category ?? '—' }}</p>
-            <p><strong>{{ 'product.description'|trans }} :</strong> {{ product.description ?? '—' }}</p>
+            <p><strong>{{ 'product.category'|trans }} :</strong> {{ product.category ?? '' }}</p>
+            <p><strong>{{ 'product.description'|trans }} :</strong> {{ product.description ?? '' }}</p>
             <p><strong>{{ 'product.price'|trans }} :</strong>
                 <span style="color: var(--gl-accent); font-weight: 700;">{{ product.price }} €</span>
                 {% if product.originalPrice %}
@@ -28,8 +28,8 @@
                     {{ product.stock }}
                 </span>
             </p>
-            <p><strong>{{ 'product.country'|trans }} :</strong> {{ product.country ?? '—' }}</p>
-            <p><strong>{{ 'product.expiration'|trans }} :</strong> {{ product.expirationDate ? product.expirationDate|date('d/m/Y') : '—' }}</p>
+            <p><strong>{{ 'product.country'|trans }} :</strong> {{ product.country ?? '' }}</p>
+            <p><strong>{{ 'product.expiration'|trans }} :</strong> {{ product.expirationDate ? product.expirationDate|date('d/m/Y') : '' }}</p>
             <p><strong>{{ 'product.threshold'|trans }} :</strong> {{ product.stockThreshold }}</p>
         </div>
     </div>
@@ -52,7 +52,7 @@
                 </div>
 
                 {% if is_granted('ROLE_USER') %}
-                <form method="post" action="{{ path('app_rating_add', {id: product.id}) }}" class="d-flex align-items-center gap-2">
+                <form method="post" action="{{ path('app_rating_add', {id: product.id}) }}" class="d-flex align-items-center gap-2 flex-wrap">
                     <span class="text-muted small">{{ 'rating.your_rating'|trans }} :</span>
                     <div class="d-flex gap-1">
                         {% set userRating = null %}
@@ -76,7 +76,7 @@
     </div>
 
     {% if is_granted('ROLE_ADMIN') %}
-    <div class="mb-4 d-flex gap-2">
+    <div class="mb-4 d-flex gap-2 flex-wrap">
         <a href="{{ path('app_product_edit', {id: product.id}) }}" class="btn btn-warning">{{ 'product.edit'|trans }}</a>
         <form method="post" action="{{ path('app_product_duplicate', {id: product.id}) }}">
             <button class="btn btn-outline-secondary">{{ 'product.duplicate'|trans }}</button>
@@ -123,7 +123,7 @@
         </div>
     {% endif %}
 
-    {# Formulaire d'ajout #}
+    {# Formulaire d'ajout ou lien connexion #}
     {% if is_granted('ROLE_USER') %}
         <div class="card border" style="border-radius: 8px;">
             <div class="card-body">
@@ -135,9 +135,10 @@
             </div>
         </div>
     {% else %}
-        <p class="text-muted small">
-            <a href="{{ path('app_login') }}">{{ 'nav.login'|trans }}</a> — {{ 'comment.login_required'|trans }}
-        </p>
+        <div class="card border text-center py-4" style="border-radius: 8px;">
+            <p class="text-muted small mb-2">{{ 'comment.login_required'|trans }}</p>
+            <a href="{{ path('app_login') }}" class="btn btn-primary btn-sm px-4">{{ 'nav.login'|trans }}</a>
+        </div>
     {% endif %}
 
 {% endblock %}
