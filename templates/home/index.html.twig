@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}GainzLab — Compléments sportifs premium{% endblock %}
+
+{% block body %}
+<div class="d-flex flex-column align-items-center justify-content-center text-center" style="min-height: 70vh;">
+
+    <p class="text-muted small text-uppercase fw-bold mb-2" style="letter-spacing: 3px;">Compléments sportifs premium</p>
+
+    <h1 style="font-size: clamp(3rem, 8vw, 6rem); font-family: 'Barlow Condensed', sans-serif; font-weight: 800; text-transform: uppercase; line-height: 1; margin-bottom: 1rem;">
+        Gainz<span style="color: var(--gl-accent);">Lab</span>
+    </h1>
+
+    <p class="text-muted mb-5" style="max-width: 420px; font-size: 1.05rem;">
+        Protéines, créatines, vitamines et plus — tout ce dont tu as besoin pour progresser.
+    </p>
+
+    <div class="d-flex gap-3 flex-wrap justify-content-center">
+        <a href="{{ path('app_product_index') }}" class="btn btn-outline-secondary btn-lg px-5">
+            Consulter le catalogue
+        </a>
+        <a href="{{ path('app_login') }}" class="btn btn-primary btn-lg px-5">
+            Se connecter
+        </a>
+    </div>
+
+    <p class="mt-4 text-muted small">
+        Pas encore de compte ?
+        <a href="{{ path('app_register') }}" style="color: var(--gl-accent);">Créer un compte</a>
+    </p>
+
+</div>
+
+<div class="row g-4 mt-2">
+    <div class="col-md-4 text-center">
+        <div class="card border h-100" style="border-radius: 8px;">
+            <div class="card-body py-4">
+                <p class="fw-bold text-uppercase mb-1" style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.2rem; color: var(--gl-accent);">Catalogue</p>
+                <p class="text-muted small mb-0">15+ produits sélectionnés dans 7 catégories</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 text-center">
+        <div class="card border h-100" style="border-radius: 8px;">
+            <div class="card-body py-4">
+                <p class="fw-bold text-uppercase mb-1" style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.2rem; color: var(--gl-accent);">Commandes</p>
+                <p class="text-muted small mb-0">Gérez vos paniers et suivez vos commandes</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 text-center">
+        <div class="card border h-100" style="border-radius: 8px;">
+            <div class="card-body py-4">
+                <p class="fw-bold text-uppercase mb-1" style="font-family: 'Barlow Condensed', sans-serif; font-size: 1.2rem; color: var(--gl-accent);">Avis</p>
+                <p class="text-muted small mb-0">Notez et commentez les produits</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
